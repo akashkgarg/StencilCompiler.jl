@@ -24,7 +24,7 @@ KernelAbstractions.@kernel function corr_kernel(out, inp, kern, offsets)
             y_inpidx, x_inpidx = y_idx+y_off, x_idx+x_off
             if (1 <= y_inpidx <= size(inp,2)) && (1 <= x_inpidx <= size(inp,1))
                 y_kernidx, x_kernidx = y_off+y_toff+1, x_off+x_toff+1
-                acc += inp[x_inpidx, y_inpidx] * kern[x_kernidx, y_kernidx]
+                acc += hadamard(inp[x_inpidx, y_inpidx],kern[x_kernidx, y_kernidx])
             end
         end
         out[x_idx, y_idx] = acc
