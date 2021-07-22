@@ -1,3 +1,4 @@
+```julia
 using TestImages
 import KernelAbstractions
 
@@ -31,3 +32,4 @@ KernelAbstractions.@kernel function corr_kernel(out, inp, kern, offsets)
 end
 
 wait(corr_kernel(KernelAbstractions.CPU())(outimg, floatimg, Δ, (1,1); ndrange=size(floatimg), workgroupsize=(2,2)))
+```julia
