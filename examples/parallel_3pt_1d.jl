@@ -31,3 +31,44 @@ function compute(t::Int, N::Int)
     end
     return data[dst_idx[]]
 end
+
+
+# 3pt parallel stencil with time slicing with redundant computation on T timesteps. Barrier synchronziation
+# happens at hte end of T timesteps until final desired T timesteps is reached.
+
+stencil = [CartesianIndex(-1), CartesianIndex(0), CartesianIndex(1)]
+coeffs = [1/3, 1/3, 1/3]
+
+function stencilfunc!(dst, src, coord, stencil, coeffs)
+    lower_bound = first(CartesianIndices(src))
+    upper_bound = last(CartesianIndices(src))
+    if coord == lower_bound || coord == upper_bound
+        dst[coord] = src[coord]
+        return nothing
+    end
+
+    val = 0
+    for (s,c) in zip(stencil, coeffs)
+        I = coord + s
+        val += c * src[I]
+    end
+    dst[coord] = val
+    return nothing
+end
+
+function compute(t::Int, N::Int)
+    src_idx = Ref(1)
+    dst_idx = Ref(2)
+    data = [rand(N), zeros(N)]
+    println(data[src_idx[]])
+    for t in 1:t
+        for I in CartesianIndices(data[src_idx[]])
+            stencilfunc!(data[dst_idx[]], data[src_idx[]], I, stencil, coeffs)
+        end
+        # swap
+        tmp = dst_idx[]
+        dst_idx[] = src_idx[]
+        src_idx[] = tmp[]
+    end
+    return data[dst_idx[]]
+end
