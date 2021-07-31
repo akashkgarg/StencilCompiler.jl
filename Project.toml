@@ -1,0 +1,4 @@
+name = "StencilCompiler"
+uuid = "89894e9a-d1e2-41fd-a390-6018568b188d"
+authors = ["Akash Garg <mail@akashgarg.org>"]
+version = "0.1.0"
