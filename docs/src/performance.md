@@ -77,30 +77,34 @@ there exist several known algorithms that operate over both space and time.
 
 A well known algorithm uses trapezoids in space-time for distributing workload.
 Consider the 1D case below: 
-
+```
 x1 x2 x3 x4 x5
+```
 
 For a 3pt stencil, the computation for x3 depends on x2 and x4 at the beginning
 of the timestep. After one timestep, we can compute new values for x2, x3 and x4.
-
+```
    x2'x3'x4'
 x1 x2 x3 x4 x5
+```
 
 Iterating another timestep, we can compute values for x3", but not for x2" and
 x4" since they would depend on x1' and x5'.
-
+```
       x3"
    x2'x3'x4'
 x1 x2 x3 x4 x5
+```
 
 The trapezoidal shape of space-time computation performed here gives the
 algorithms its name. We can split up the rest of the domain and each set of
 space-time tiles can be scheduled in parallel. For example we x1-x5 and x6-x10
 can be used to compute x3" and x8". 
-
+```
       x3"            x8"
    x2'x3'x4'      x7'x8'x9'
 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10
+```
 
 As a second step, we can compute the remaining values by looking at the inverted
 "trapezoids" and compute values for x1" x2" x4" x5" x6" x7" x9" and x10"; each
