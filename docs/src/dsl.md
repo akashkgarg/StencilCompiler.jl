@@ -8,33 +8,38 @@ There are two main components we need to define for Stencil computations:
 
 For a 1D example, we might want something like this: 
 ```julia
-G = @grid 1:10, 64 
+G = Grid(1:10, 64)
 S = @stencil begin 
-    1 = G[0]
-    end = G[end]
-    [2:end-1] = 1/3 * (G[-1] + G[0] + G[1])
+    G[1] = G[i]
+    G[end] = G[i]
+    otherwise = 1/3 * (G[i-1] + G[i] + G[i+1])
 end
 ```
-`@grid` will define the spatial extents and temporal extents for the
+`Grid` will define the spatial extents and temporal extents for the
 computation. The `@stencil` macro defines the computational expressions
-for each element in the Grid. Note that references to Grid are relative
-to offset `0`, which indicates the current grid cell; this offsetting can 
-be used to define stencils and coefficients. In this example we have 
+for each element in the Grid. The LHS of the stencil expressions define the
+exact coordinates in the grid and the RHS defines the actual computational rule
+for that coordinate. Note that the RHS can use aux variables like `i` as an
+indicator of current location in the stencil. The `otherwise` keyword can be
+used to define a stencil rule for all coordinates not explicitly defined by any
+other stencil rules. The `otherwise` statement must come last. In this example we have 
 constant boundaries and a 3-point stencil with weights 1/3 each. 
 
 Multi-dimensional grids can be defined similarly:
 ```julia
-G = @grid (1:10,1:10), 64
+G = Grid(1:10,1:10), 64
 S = @stencil begin
-    [:, 1] = 0
-    [:, end] = 0
-    [1, :] = 0
-    [end, :] = 0
-    [2:end-1, 2:end-1] = -4*G[0,0] + 1*(G[1,0] + G[-1,0] + G[0,1] + G[0, -1])
+    G[:, 1] = 0
+    G[:, end] = 0
+    G[1, :] = 0
+    G[end, :] = 0
+    G[5,5] = 10
+    otherwise = -4*G[i,j] + 1*(G[i+1,j] + G[i-1,j] + G[i,j+1] + G[i, j-1])
 end
 ```
 Here we have defined a 2-dimensional 10x10 grid with constant boundary
-conditions and a Laplacian stencil.
+conditions and a Laplacian stencil. We also have a "source" in the middle of the
+grid. 
 
 Once the grid and stencil are defined, we can generate a native julia function
 that performs the stencil computation: 

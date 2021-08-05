@@ -17,3 +17,7 @@
 15. Tang, Yuan, Rezaul Chowdhury, Bradley C Kuszmaul, Chi-Keung Luk, and Charles E Leiserson. “The Pochoir Stencil Compiler,” 2011, 12.
 16. Zhou, Xing. “TILING OPTIMIZATIONS FOR STENCIL COMPUTATIONS,” 2013, 133.
 17. Pereira, Alyson D., Luiz Ramos, and Luís F. W. Góes. “PSkel: A Stencil Programming Framework for CPU-GPU Systems: PSkel: A Stencil Programming Framework for CPU-GPU Systems.” Concurrency and Computation: Practice and Experience 27, no. 17 (December 10, 2015): 4938–53. https://doi.org/10.1002/cpe.3479.
+18. https://pycodegen.pages.i10git.cs.fau.de/pystencils/index.html
+19. DeVito, Zachary, and Pat Hanrahan. “Designing the Language Liszt for Building Portable Mesh-Based PDE Solvers,” 2011.
+20. Bauer, Martin, Johannes Hötzer, Dominik Ernst, Julian Hammer, Marco Seiz, Henrik Hierl, Jan Hönig, et al. “Code Generation for Massively Parallel Phase-Field Simulations.” In Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis, 1–32. Denver Colorado: ACM, 2019. https://doi.org/10.1145/3295500.3356186.
+
