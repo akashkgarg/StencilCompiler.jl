@@ -1,4 +1,4 @@
 struct Grid
-    xs:
-    ts:Int
+    xs
+    ts::Int
 end
